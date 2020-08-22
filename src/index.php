@@ -32,16 +32,9 @@
         $device_global_ip = $devices[$i]['global_ip'];
         $device_local_ip = $devices[$i]['local_ip'];
         $device_date = $devices[$i]['last_check_in'];
-        $status =
-          time() - (60 * 60 + 1) < strtotime($device_date) ? "ALIVE" : "DEAD";
-        $message_color =
-          time() - (60 * 60 + 1) < strtotime($device_date)
-          ? "is-light"
-          : "is-dark";
-        $tag_color =
-          time() - (60 * 60 + 1) < strtotime($device_date)
-          ? "is-success"
-          : "is-danger";
+        $status = (time() - TIME_TIL_DEAD) < strtotime($device_date) ? "ALIVE" : "DEAD";
+        $message_color = (time() - TIME_TIL_DEAD) < strtotime($device_date) ? "is-light" : "is-dark";
+        $tag_color = (time() - TIME_TIL_DEAD) < strtotime($device_date) ? "is-success" : "is-danger";
 
         echo "
         <article class='message $message_color'>
