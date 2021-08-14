@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RPi</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 
 <body>
@@ -42,7 +43,7 @@
             <p>$device_name <span class='tag $tag_color is-medium ml-3'>$status</span></p>
           </div>
           <div class='message-body'>
-            <p> <span class='icon'> <i class='fa fa-clock-o'></i> </span> $device_date </p>
+            <p> <span class='icon'> <i class='fa fa-clock'></i> </span> $device_date </p>
             <p> <span class='icon'> <i class='fa fa-globe'></i> </span> $device_global_ip </p>
             <p> <span class='icon'> <i class='fa fa-sitemap'></i> </span> $device_local_ip </p>
           </div>

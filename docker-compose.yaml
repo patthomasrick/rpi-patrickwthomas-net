@@ -1,30 +1,49 @@
 version: "3.7"
+
 services:
-  web-server:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    restart: always
-    volumes:
-      - ./src/:/var/www/html/
+  web:
+    build: .
+    depends_on:
+      - database
+    restart: "always"
     ports:
-      - 8080:80
-  mysql-server:
-    image: mysql:8.0.19
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
+      - "8101:80"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - "./src/:/var/www/html/"
+    networks:
+      - backend
+
+  database:
+    image: "mariadb:${MARIADB_VERSION}"
+    restart: "always"
+    volumes:
+      - "database-data:/var/lib/mysql/data"
+      - "database-log:/var/lib/mysql/logs"
+      - "./migrations:/docker-entrypoint-initdb.d"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    networks:
+      - backend
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.0.1
-    restart: always
-    environment:
-      PMA_HOST: mysql-server
-      PMA_USER: root
-      PMA_PASSWORD: secret
+    image: phpmyadmin
+    depends_on:
+      - database
+    restart: "always"
     ports:
-      - 5000:80
+      - "8102:80"
+    environment:
+      PMA_HOST: "database"
+      UPLOAD_LIMIT: 2G
+    networks:
+      - backend
+
 volumes:
-  mysql-data:
+  database-data:
+  database-log:
+
+networks:
+  backend:
