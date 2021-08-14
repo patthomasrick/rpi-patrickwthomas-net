@@ -12,7 +12,8 @@ if (isset($_GET)) {
     die("bad");
   }
 
-  $global_ip = $_SERVER['REMOTE_ADDR'];
+  $headers = apache_request_headers();
+  $global_ip = isset($headers["X-Forwarded-For"]) ? $headers["X-Forwarded-For"] : $_SERVER['REMOTE_ADDR'];
 
   $sql = '
   SET time_zone = "-04:00";
@@ -23,7 +24,9 @@ if (isset($_GET)) {
     `local_ip` = :local_ip,
     `last_check_in` = CURRENT_TIMESTAMP
   WHERE
-    `api_key`=:api_key;';
+    `api_key`=:api_key
+  ORDER BY
+    `name`;';
   $sth = $dbh->prepare($sql);
   $sth->execute([
     ':global_ip' => $global_ip,
