@@ -1,18 +1,7 @@
 import useSwr from "swr";
 import Link from "next/link";
-import getPool from "../lib/db";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
-export async function getStaticProps() {
-  const pool = getPool();
-
-  
-
-  return {
-    props: {}
-  };
-}
 
 export default function Index() {
   const { data, error } = useSwr("/api/users", fetcher);
