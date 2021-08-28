@@ -4,62 +4,33 @@ let should = require("chai").should(),
   api = supertest("http://localhost:3000"),
   faker = require("faker");
 
-// let tokenSymbol = faker.lorem.word();
-// let result;
-
-// describe("Token", function () {
-//   before(function (done) {
-//     api
-//       .post("/api/tokens")
-//       .set("Accept", "application/x-www-form-urlencoded")
-//       .send({
-//         name: faker.name.findName(),
-//         symbol: tokenSymbol,
-//         owner: faker.lorem.word(),
-//         userId: faker.random.uuid(),
-//         txHash: faker.lorem.word(),
-//       })
-//       .expect("Content-Type", /json/)
-//       .expect(200)
-//       .end(function (err, res) {
-//         done();
-//       });
-//   });
-
-//   it("should return a 200 response", function (done) {
-//     api.get(`/api/tokens/${tokenSymbol}`).set("Accept", "application/json").expect(200, done);
-//   });
-
-//   it("should return a 400 response", function (done) {
-//     api.get("/api/tokens/hello").set("Accept", "application/json").expect(400, done);
-//   });
-// });
-
 describe("User Create", () => {
-
   let username = faker.name.firstName();
   let password = faker.lorem.word();
 
-  // console.log(username, password);
-
-  before((done) => {
+  it("should return a 201 response and create a new user", (done) => {
     api
-      .post(`/api/tokens/${username}`)
+      .post(`/api/users`)
+      .set("username", "patrick")
+      .set("password", "password")
       .set("Accept", "application/json")
-      .send({ 
-        password: password
+      .send({
+        username: username,
+        password: password,
       })
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .end((err, res) => {
-        // console.log(err, res);
-        done();
-      })
+      .expect(201, done);
   });
 
-  it("should return a 200 response", (done) => {
-    api.get(`/api/user/${username}`).set("Accept", "application/json").expect(200, done);
+  it("should return a 409 response", (done) => {
+    api
+      .post(`/api/users`)
+      .set("username", "patrick")
+      .set("password", "password")
+      .set("Accept", "application/json")
+      .send({
+        username: username,
+        password: password,
+      })
+      .expect(409, done);
   });
-
-  it("should return")
 });
