@@ -1,12 +1,61 @@
 # rpi.patrickwthomas.net
 
-## REST API Documentation
+# REST API Documentation
 
-### Objects
+## Design
 
-- `device` - device to update
+- `users`
+  - users own devices
+  - users can add, update, and remove devices
+  - users can create and remove users
+- `devices` - device to update
+  - devices contain status information, including both past and present
 
-### Endpoints
+## Endpoints
+
+```
+/devices
+/devices/[id]
+/users
+/users/[id]
+/users/[id]/devices
+/users/[id]/devices/[id]
+```
+
+### `/users`
+
+#### GET
+
+Get a list of users.
+
+_Parameters:_
+
+- limit - Number of results to get, by default is unlimited.
+- offset - Number of results to skip, by default is 0.
+
+_Example request:_
+
+```json
+{
+  "offset": 0,
+  "limit": 2
+}
+```
+
+_Example response:_
+
+```json
+{
+  "users": [
+    {
+      "username": "Patrick"
+    },
+    {
+      "username": "Tommy"
+    }
+  ]
+}
+```
 
 <!-- ### Create (`POST`) - `/api/user/create`
 
