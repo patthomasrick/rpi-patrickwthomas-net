@@ -22,6 +22,8 @@
 /users/[id]/devices/[id]
 ```
 
+All endpoints require some user authentication, whether it be a username/password pair or an authentication key. These are to always be passed _in the request header_.
+
 ### `/users`
 
 #### GET
@@ -57,30 +59,70 @@ _Example response:_
 }
 ```
 
-<!-- ### Create (`POST`) - `/api/user/create`
+#### POST
 
-Create a new user.
+Create a new user. Requires an existing user account.
 
-- `username` - current username. An existing user is required
-- `password` - password for authentication
-- `new_username` - username to create a user for, maximum length is 32 characters
-- `new_password` - password for authentication
-- response:
-  - 200 - not created
-  - 201 - created
+_Parameters:_
 
-### Login (`POST`) - `/api/user/[username]/login`
+- `new_username` - New account username.
+- `new_password` - New account password.
 
-Login to an existing user account.
+_Example request:_
 
-- `password` - login password
-- response
-  - 401 - bad password
-  - 201 - successful
-    - `auth_key` - auth key to use for later requests
+```json
+{
+  "username": "Patrick2",
+  "password": "password123"
+}
+```
 
-### Test (`GET`) - `/api/user/[username]/test`
+_Example response:_
 
-Test an auth key's validity.
+```
+201: CREATED
+```
 
-- `auth_key` - from Login -->
+#### PUT
+
+Update a user's attributes. Only supplied parameters will be changed.
+
+_Parameters:_
+
+- `...` - Values to change and their new values.
+
+_Example request:_
+
+```json
+{
+  "auth_key": "abc123"
+}
+```
+
+_Example response:_
+
+```
+200: OK
+```
+
+#### DELETE
+
+Remove a user.
+
+_Parameters:_
+
+- `username` - User to delete.
+
+_Example request:_
+
+```json
+{
+  "username": "Patrick2"
+}
+```
+
+_Example response:_
+
+```
+202: ACCEPTED
+```
