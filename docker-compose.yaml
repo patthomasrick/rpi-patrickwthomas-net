@@ -11,19 +11,15 @@ services:
       - 3000:3000
     env_file:
       - rpi.dev.env
-  
+
   db:
     restart: always
-    image: mariadb:10
-    restart: always
-    volumes:
-      - ./migrations:/docker-entrypoint-initdb.d
-    env_file:
-      - rpi.dev.env
-
-  adminer:
-    restart: always
-    image: adminer
+    image: neo4j:4.3
     restart: always
     ports:
-      - 8080:8080
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - ./neo4j-data:/data
+    env_file:
+      - rpi.dev.env
